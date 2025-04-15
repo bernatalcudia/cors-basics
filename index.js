@@ -5,6 +5,8 @@ const cors = require('cors');
 
 app.use(cors())
 
+app.use(express.json())
+
 const animals = [
     {
         name: 'Gato',
@@ -22,6 +24,16 @@ const animals = [
 
 app.get('/animals', (req, res) => {
     res.send(animals)
+})
+
+app.post('/animals', (req, res) => {
+
+
+    animals.push({
+        name: req.body.name,
+        strength: req.body.strength
+    })
+    res.status(204)
 })
 
 app.listen(PORT, () => {
