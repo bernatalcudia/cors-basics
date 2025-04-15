@@ -5,8 +5,23 @@ const cors = require('cors');
 
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
+const animals = [
+    {
+        name: 'Gato',
+        strength: 3
+    },
+    {
+        name: 'Elefante',
+        strength: 10
+    },
+    {
+        name: 'Murcielago',
+        strength: 3
+    },
+]
+
+app.get('/animals', (req, res) => {
+    res.send(animals)
 })
 
 app.listen(PORT, () => {
