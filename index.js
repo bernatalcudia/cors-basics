@@ -33,7 +33,7 @@ app.post('/animals', (req, res) => {
         name: req.body.name,
         strength: req.body.strength
     })
-    res.status(204)
+    res.sendStatus(204)
 })
 
 app.listen(PORT, () => {
