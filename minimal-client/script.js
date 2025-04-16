@@ -6,6 +6,7 @@ const createAnimalButton = document.getElementById('createAnimalButton')
 createAnimalButton.innerText = 'Send animal'
 
 
+
 const createAnimal = () => {
 
     const inputAnimal = document.getElementById('animalToCreate')
