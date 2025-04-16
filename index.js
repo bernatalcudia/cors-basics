@@ -7,7 +7,7 @@ app.use(cors())
 
 app.use(express.json())
 
-const animals = [
+let animals = [
     {
         name: 'Gato',
         strength: 3
@@ -34,6 +34,14 @@ app.post('/animals', (req, res) => {
         strength: req.body.strength
     })
     res.sendStatus(204)
+})
+
+app.delete('/animals/:id', (req, res) => {
+    const idToDelete = req.params.id
+
+    animals = animals.filter((animal) => animal.id !== idToDelete)
+    res.sendStatus(200)
+
 })
 
 app.listen(PORT, () => {
