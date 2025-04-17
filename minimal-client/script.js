@@ -3,7 +3,7 @@ const API_URL = 'http://localhost:7777'
 
 const createAnimalButton = document.getElementById('createAnimalButton')
 
-createAnimalButton.innerText = 'Send animal'
+createAnimalButton.innerText = 'Create animal'
 
 
 
@@ -48,10 +48,17 @@ const getAnimals = () => {
 
             animals.forEach(animal => {
                 animalsContainer.innerHTML +=
-                    ` <h2>${animal.name} Strength:${animal.strength} </h2>`
+                    ` <h2>${animal.name} Strength:${animal.strength} <button onclick="deleteAnimal(animalId)">Delete Animal</button> </h2>`
             });
         })
 }
+
+const deleteAnimal = (animalId) => {
+    fetch(`${API_URL}/animals/${animalId} `, {
+        method: 'DELETE'
+    }).then(getAnimals())
+}
+
 
 getAnimals()
 

@@ -9,14 +9,17 @@ app.use(express.json())
 
 let animals = [
     {
+        id: 1,
         name: 'Gato',
         strength: 3
     },
     {
+        id: 2,
         name: 'Elefante',
         strength: 10
     },
     {
+        id: 3,
         name: 'Murcielago',
         strength: 3
     },
@@ -37,11 +40,15 @@ app.post('/animals', (req, res) => {
 })
 
 app.delete('/animals/:id', (req, res) => {
-    const idToDelete = req.params.id
+    const idToDelete = Number(req.params.id)
 
-    animals = animals.filter((animal) => animal.id !== idToDelete)
-    res.sendStatus(200)
-
+    const filteredAnimals = animals.filter((animal) => animal.id !== idToDelete)
+    if (filteredAnimals.length === animals.length) {
+        res.status(404).send('no items deleted')
+    } else {
+        animals = filteredAnimals
+        res.sendStatus(200)
+    }
 })
 
 app.listen(PORT, () => {
