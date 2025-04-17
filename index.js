@@ -31,8 +31,14 @@ app.get('/animals', (req, res) => {
 
 app.post('/animals', (req, res) => {
 
+    const idAnimal = animals.length
+
+    if (!req.body) {
+        res.status(404).send('Body not found')
+    }
 
     animals.push({
+        id: idAnimal,
         name: req.body.name,
         strength: req.body.strength
     })
@@ -48,6 +54,30 @@ app.delete('/animals/:id', (req, res) => {
     } else {
         animals = filteredAnimals
         res.sendStatus(200)
+    }
+})
+
+app.put('/animals/:id', (req, res) => {
+    const idToDelete = Number(req.params.id)
+
+    if (!req.body) {
+        res.status(404).send('Body not found')
+    }
+
+    const nameToUpdate = req.body.name
+    const strengthToUpdate = req.body.strength
+
+    if (!nameToUpdate || !strengthToUpdate) {
+        res.send('Name or Strength not provided to update')
+    }
+
+    const indexAnimal = animals.findIndex((animal) => { animal.id === idToDelete })
+    if (indexAnimal >= 0) {
+        animals[indexAnimal].name = nameToUpdate
+        animals[indexAnimal].strength = strengthToUpdate
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(404)
     }
 })
 
