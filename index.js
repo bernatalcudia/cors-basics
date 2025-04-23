@@ -25,23 +25,27 @@ let animals = [
     },
 ]
 
+let currentId = animals.length
+
 app.get('/animals', (req, res) => {
     res.send(animals)
 })
 
 app.post('/animals', (req, res) => {
 
-    const idAnimal = animals.length
 
     if (!req.body) {
         res.status(404).send('Body not found')
+        return
     }
 
     animals.push({
-        id: idAnimal,
+        id: currentId,
         name: req.body.name,
         strength: req.body.strength
     })
+
+    currentId++
     res.sendStatus(204)
 })
 
@@ -62,6 +66,7 @@ app.put('/animals/:id', (req, res) => {
 
     if (!req.body) {
         res.status(404).send('Body not found')
+        return
     }
 
     const nameToUpdate = req.body.name
@@ -69,6 +74,7 @@ app.put('/animals/:id', (req, res) => {
 
     if (!nameToUpdate || !strengthToUpdate) {
         res.send('Name or Strength not provided to update')
+        return
     }
 
     const indexAnimal = animals.findIndex((animal) => { animal.id === idToDelete })

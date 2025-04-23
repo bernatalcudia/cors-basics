@@ -1,46 +1,52 @@
-const API_URL = 'http://localhost:7777'
+const API_URL = 'http://localhost:8000'
 
 
-const createAnimalButton = document.getElementById('createAnimalButton')
-const deleteButton = document.getElementById('deleteButton')
-
-createAnimalButton.innerText = 'Create animal'
+const createCityButton = document.getElementById('createCityButton')
 
 
+const cityToCreate = document.getElementById('cityToCreate')
 
-const createAnimal = () => {
+const countryToCreate = document.getElementById('countryToCreate')
 
-    const inputAnimal = document.getElementById('animalToCreate')
-    const inputStrength = document.getElementById('strengthToCreate')
+createCityButton.innerText = 'Create cities'
 
-    const animalToCreate = document.getElementById('animalToCreate').value
-    const strengthToCreate = Number(document.getElementById('strengthToCreate').value)
 
-    fetch(API_URL + '/animals', {
+
+const createCity = () => {
+
+    const inputName = document.getElementById('cityToCreate')
+    const inputCountry = document.getElementById('countryToCreate')
+
+    const cityToCreate = document.getElementById('cityToCreate').value
+    console.log(cityToCreate)
+    const countryToCreate = document.getElementById('countryToCreate').value
+
+    fetch(API_URL + '/cities', {
         headers: {
             'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
-            name: animalToCreate,
-            strength: strengthToCreate,
+            city: cityToCreate,
+            country: countryToCreate,
         }),
     }).then(
-        inputAnimal.value = '',
-        inputStrength.value = '',
-        getAnimals()
+        inputName.value = '',
+        inputCountry.value = '',
+        getCities()
     )
 };
 
-const deleteAnimal = (animalId) => {
-    fetch(`${API_URL}/animals/${animalId} `, {
-        method: 'DELETE'
-    }).then(getAnimals())
+const deleteCity = (cityId) => {
+    fetch(`${API_URL}/cities/${cityId} `, {
+        method: 'DELETE',
+
+    }).then(getCities())
 }
 
 
-const getAnimals = () => {
-    fetch(API_URL + '/animals', {
+const getCities = () => {
+    fetch(API_URL + '/cities', {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -49,22 +55,23 @@ const getAnimals = () => {
 
     })
         .then((res) => res.json())
-        .then((animals) => {
-            console.log(animals)
-            const animalsContainer = document.getElementById('animalsContainer')
-            animalsContainer.innerHTML = ''
+        .then((cities) => {
+            console.log(cities)
+            const citiesContainer = document.getElementById('citiesContainer')
+            citiesContainer.innerHTML = ''
 
-            animals.forEach(animal => {
-                animalsContainer.innerHTML +=
-                    ` <h2>${animal.name} Strength:${animal.strength} <button id="deleteButton" onclick="deleteAnimal(${animal.id})">Delete Animal</button> </h2>`
+            cities.forEach(city => {
+                console.log(city.name)
+                citiesContainer.innerHTML +=
+                    ` <h2>${city.name} Country:${city.country} <button id="deleteButton" onclick="deleteCity(${city.id})">Delete City</button> </h2>`
             });
         })
 }
 
 
-getAnimals()
+getCities()
 
 
-createAnimalButton.addEventListener('click', createAnimal);
+createCityButton.addEventListener('click', createCity);
 
-deleteButton.addEventListener('click', deleteAnimal);
+// deleteButton.addEventListener('click', deleteAnimal);
